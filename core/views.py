@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, FormView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.mixins import TitleContextMixin
-from core.forms import SupplierForm
-from .models import Customer, Supplier
+from core.forms import SupplierForm, ProductForm
+from .models import Customer, Supplier, Product
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -94,6 +94,64 @@ class SupplierDeleteView(LoginRequiredMixin, TitleContextMixin, DeleteView):
     success_url = reverse_lazy("core:supplier_list")
     title1 = "Eliminar"
     title2 = 'Eliminar Proveedor VBC'
+
+# Productos
+
+
+class ProductListView(LoginRequiredMixin, TitleContextMixin, ListView):
+    model = Product
+    template_name = 'product/list.html'
+    context_object_name = 'products'
+    paginate_by = 10
+    title1 = "Productos"
+    title2 = "Listado de Productos"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q', '')
+        if query:
+            queryset = queryset.filter(
+                Q(description__icontains=query) |
+                Q(brand__description__icontains=query)
+            )
+        return queryset
+
+
+class ProductCreateView(LoginRequiredMixin, TitleContextMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product/form.html"
+    success_url = reverse_lazy("core:product_list")
+    title1 = "Productos"
+    title2 = "Crear Nuevo Producto"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ProductUpdateView(LoginRequiredMixin, TitleContextMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product/form.html"
+    success_url = reverse_lazy("core:product_list")
+    title1 = "Productos"
+    title2 = "Editar Producto"
+
+    def form_valid(self, form):
+        # Opcional: registrar quién hizo la última modificación
+        # form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ProductDeleteView(LoginRequiredMixin, TitleContextMixin, DeleteView):
+    model = Product
+    template_name = "product/delete.html"
+    success_url = reverse_lazy("core:product_list")
+    title1 = "Productos"
+    title2 = "Eliminar Producto"
+
+# Registrarse
 
 
 class SignupView(CreateView):

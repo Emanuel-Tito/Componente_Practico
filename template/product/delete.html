@@ -5,18 +5,16 @@
     <form class="form-container" method="POST">
      {% csrf_token %}
      <h1 class="title">{{ title2 }}</h1>
-     <h2>¿Desea Eliminar el Proveedor?
-        <span>{{ supplier.id }} - {{ supplier.name }}</span>
+     
+     <h2>¿Desea Eliminar el Producto?
+       <span>{{ object.id }} - {{ object.description }}</span>
      </h2>
+     
      <div>
          <button class="btn blue" type="submit">Eliminar</button>
-         <a class="btn red" href="{% url 'core:supplier_list' %}" >Regresar</a>
+         <a class="btn red" href="{% url 'core:product_list' %}" >Regresar</a>
      </div>
     </form>
   </div>
 </div>
 {% endblock content %}
-
-
-
-

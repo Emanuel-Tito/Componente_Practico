@@ -4,43 +4,42 @@
     <br>
     <h1 class="title">{{ title2 | upper }}</h1>
      <form method="get" >
-        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar por nombre o RUC">
-        <button type="submit">Buscar</button>
-    </form>
+       <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar por descripción o marca">
+       <button type="submit">Buscar</button>
+     </form>
     <table class="styled-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Dni</th>
-          <th>Direccion</th>
-          <th>Telefono</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-       {% for item in suppliers %}
-        <tr>
-         <td>{{item.name}}</td>
-          <td>{{item.ruc}}</td>
-          <td>{{item.address}}</td>
-          <td>{{item.phone}}</td>
-          <td>{% if item.state %}
-               ✔
-              {% else %}
-               ➖
-              {% endif %}
-          </td>
-          <td>
-            <a href={% url 'core:supplier_update' item.id %}>✏️</a>
-            <a href={% url 'core:supplier_delete' item.id %}>❌</a>
-          </td>
-        </tr>
-       {% endfor %}
-      </tbody>
+       <thead>
+         <tr>
+           <th>Descripción</th>
+           <th>Marca</th>
+           <th>Precio</th>
+           <th>Stock</th>
+           <th>Estado</th>
+           <th>Acciones</th>
+         </tr>
+       </thead>
+       <tbody>
+         {% for product in products %}
+         <tr>
+           <td>{{ product.description }}</td>
+           <td>{{ product.brand }}</td>
+           <td>${{ product.price|floatformat:2 }}</td> <td>{{ product.stock }}</td>
+           <td>{% if product.state %}
+                 ✔
+               {% else %}
+                 ➖
+               {% endif %}
+           </td>
+           <td>
+             <a href="{% url 'core:product_update' product.id %}">✏️</a>
+             <a href="{% url 'core:product_delete' product.id %}">❌</a>
+           </td>
+         </tr>
+         {% endfor %}
+       </tbody>
     </table>
      <div class="form-group">
-       <a class="btn blue" href={% url 'core:supplier_create' %}>Nuevo Proveedor</a>
+       <a class="btn blue" href="{% url 'core:product_create' %}">Nuevo Producto</a>
      </div>
   </div>
 {% endblock content  %}
