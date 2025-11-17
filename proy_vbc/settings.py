@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'proy_vbc.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'com_practico',
+        'USER': 'unemi',
+        'PASSWORD': 'unemi2025',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -119,9 +123,11 @@ LOGIN_URL = '/'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)#carpeta fisica de archivos estaticos
-MEDIA_ROOT = os.path.join(BASE_DIR,'media') # carpeta fisica de archivos de Imagenes
-MEDIA_URL = '/media/' # url de imagenes
+# carpeta fisica de archivos estaticos
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# carpeta fisica de archivos de Imagenes
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'  # url de imagenes
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
